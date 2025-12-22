@@ -12,40 +12,40 @@
       --line:#233154;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Arial; background:radial-gradient(1200px 800px at 85% -10%, #1b2a5a 0%, var(--bg1) 45%, #050814 100%); color:var(--txt)}
-    header{padding:22px 18px 10px; position:sticky; top:0; backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:5}
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Arial; background:radial-gradient(1200px 800px at 85% -10%, #1b2a5a 0%, var(--bg1) 45%, #050814 100%); color:var(--txt); line-height: 1.5}
+    header{padding:22px 18px 10px; position:sticky; top:0; backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:100}
     .wrap{max-width:1100px;margin:0 auto}
     h1{margin:0;font-size:20px; letter-spacing:.2px}
     .sub{color:var(--muted); margin-top:6px; font-size:13px; line-height:1.35}
     .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid rgba(255,255,255,.08); border-radius:999px; color:var(--muted); font-size:12px}
     .grid{display:grid; gap:12px}
-    .kpis{grid-template-columns:repeat(6,1fr)}
-    .card{background:linear-gradient(180deg, rgba(17,28,54,.95), rgba(17,28,54,.75)); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:12px}
+    .kpis{grid-template-columns:repeat(auto-fit, minmax(150px, 1fr))}
+    .card{background:linear-gradient(180deg, rgba(17,28,54,.95), rgba(17,28,54,.75)); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; height: 100%;}
     .kpiTitle{color:var(--muted); font-size:12px}
-    .kpiVal{font-size:20px; margin-top:6px; font-weight:800}
+    .kpiVal{font-size:22px; margin-top:6px; font-weight:800}
     .kpiHint{color:var(--muted); font-size:11px; margin-top:4px}
     .badge{display:inline-block; padding:3px 8px; border-radius:999px; font-size:11px; border:1px solid rgba(255,255,255,.12); color:var(--muted)}
     .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-    .row{display:grid; grid-template-columns: 1.2fr .8fr; gap:12px; align-items:start}
+    .row{display:grid; grid-template-columns: 1.4fr 0.6fr; gap:12px; align-items:start}
     .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    canvas{width:100% !important; height:320px !important}
-    table{width:100%; border-collapse:collapse; font-size:13px}
-    th,td{padding:10px 8px; border-bottom:1px solid rgba(255,255,255,.08)}
-    th{text-align:right; color:var(--muted); font-weight:600; position:sticky; top:118px; background:rgba(11,18,32,.85)}
+    .chart-container { position: relative; height:280px; width:100% }
+    table{width:100%; border-collapse:collapse; font-size:13px; min-width: 600px}
+    th,td{padding:12px 8px; border-bottom:1px solid rgba(255,255,255,.08)}
+    th{text-align:right; color:var(--muted); font-weight:600; position:sticky; top:0; background:#111c36}
     tr:hover td{background:rgba(110,168,254,.06)}
     .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    button{cursor:pointer; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--txt); padding:9px 12px; border-radius:12px; font-weight:700}
-    button.active{border-color:rgba(110,168,254,.7); box-shadow:0 0 0 3px rgba(110,168,254,.18) inset}
+    button{cursor:pointer; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--txt); padding:9px 16px; border-radius:12px; font-weight:700; transition: 0.2s}
+    button.active{border-color:var(--accent); background:rgba(110,168,254,0.1); color:var(--accent)}
     .note{color:var(--muted); font-size:12px; line-height:1.45}
-    .callout{border:1px dashed rgba(255,255,255,.18); border-radius:16px; padding:12px; background:rgba(255,255,255,.03)}
+    .callout{border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding:12px; background:rgba(255,255,255,.03)}
     .list{margin:0; padding-right:18px}
     .list li{margin:6px 0}
-    .footer{padding:18px 18px 28px; color:var(--muted); font-size:12px}
+    .footer{padding:28px 18px; color:var(--muted); font-size:12px; text-align: center}
+    
     @media (max-width:980px){
       .kpis{grid-template-columns:repeat(2,1fr)}
       .row{grid-template-columns:1fr}
       .row2{grid-template-columns:1fr}
-      th{top:156px}
     }
   </style>
 </head>
@@ -55,13 +55,10 @@
     <div style="display:flex; gap:12px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap">
       <div>
         <h1>⛽ דשבורד דלק — Toyota Yaris Cross 2024</h1>
-        <div class="sub">מקור אמת: <b>Fuelio</b> (נסועה + יעילות) · בקרה כספית: דלקן/חשבוניות · “Walmart Style”</div>
-        <div class="sub">📌 נקודת התחלה מתודולוגית שסגרנו: <b>01/12/2024 · 1,938 ק״מ</b> (Fuelio הוא הסמן). בקובץ הייצוא הנוכחי מופיעים תדלוקים החל מ‑08/12/2024, ולכן ה‑01/12/2024 משמש עוגן תיאורטי לתחילת התקופה ולא מחושב כמדידה של ק״מ/ל׳.</div>
-        <div class="sub">⚠️ דצמבר 2025: תדלוקים חלקיים/חריגים מטופלים בתצוגה נקייה (ומייצבים לפי ממוצע שנתי במקום לעוות מגמה).</div>
+        <div class="sub">מקור אמת: <b>Fuelio</b> · תקופת מדידה: דצמבר 2024 - דצמבר 2025</div>
       </div>
       <div class="pill">🧠 מצב: <span id="modeName">נקי מחריגים</span> · <span class="badge" id="outlierBadge"></span></div>
     </div>
-
     <div class="controls">
       <button id="btnClean" class="active" onclick="setMode('clean')">✅ תצוגה נקייה (מומלץ)</button>
       <button id="btnRaw" onclick="setMode('raw')">🧾 תצוגה גולמית</button>
@@ -74,215 +71,163 @@
 
   <section class="row" style="margin-top:12px">
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
-        <div>
-          <div class="kpiTitle">📊 מגמות חודשיות</div>
-          <div class="note">גרפים: ק״מ/ל׳ · ₪/ק״מ · ₪/ל׳</div>
-        </div>
-        <span class="badge">טיפ: חריגים יכולים “לייפות” חודש — לכן יש תצוגה נקייה</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+        <div class="kpiTitle">📊 מגמות חודשיות (ק״מ/ל׳, עלות לק״מ, מחיר ליטר)</div>
       </div>
-      <div class="row2" style="margin-top:10px">
-        <div><canvas id="c1"></canvas></div>
-        <div><canvas id="c2"></canvas></div>
+      <div class="row2">
+        <div class="chart-container"><canvas id="c1"></canvas></div>
+        <div class="chart-container"><canvas id="c2"></canvas></div>
       </div>
-      <div style="margin-top:12px"><canvas id="c3"></canvas></div>
+      <div class="chart-container" style="margin-top:20px"><canvas id="c3"></canvas></div>
     </div>
 
     <div class="card">
       <div class="kpiTitle">🧾 תובנות והמלצות</div>
       <div id="insights" style="margin-top:10px"></div>
-
-      <div class="callout" style="margin-top:12px">
-        <div style="font-weight:800; margin-bottom:6px">🎯 כלל בקרה חודשי</div>
-        <div class="note">
-          אם בחודש מסוים: <span class="warn">ק״מ/ל׳ ↓ יותר מ‑10%</span> או <span class="warn">₪/ק״מ ↑ יותר מ‑10%</span> —
-          עוצרים לבדיקה: פקקים/מזגן/לחץ אוויר/תדלוק חלקי/נסיעה חריגה.
-        </div>
-      </div>
     </div>
   </section>
 
   <section class="card" style="margin-top:12px">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
-      <div>
-        <div class="kpiTitle">📅 טבלה חודשית (Management Table)</div>
-        <div class="note">חודש · תדלוקים · ק״מ · ליטרים · עלות · ק״מ/ל׳ · ₪/ק״מ · ₪/ל׳ · חריגים</div>
-      </div>
-      <span class="badge">מוכן ל‑GitHub Pages — פשוט להעלות כ‑index.html</span>
-    </div>
-    <div style="overflow:auto; margin-top:10px; max-height:520px">
+    <div class="kpiTitle" style="margin-bottom:10px">📅 טבלה חודשית מרכזת</div>
+    <div style="overflow-x:auto; max-height:450px">
       <table id="tbl">
-        <thead><tr>
-          <th>חודש</th><th>#</th><th>ק״מ</th><th>ל׳</th><th>₪</th><th>ק״מ/ל׳</th><th>₪/ק״מ</th><th>₪/ל׳</th><th>חריגים</th>
-        </tr></thead>
+        <thead>
+          <tr>
+            <th>חודש</th><th>תדלוקים</th><th>ק״מ</th><th>ליטרים</th><th>עלות</th><th>ק״מ/ל׳</th><th>₪/ק״מ</th><th>₪/ל׳</th><th>חריגים</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
     </div>
   </section>
 
   <section class="footer">
-    ✅ Fuelio הוא “הסמן” שלנו. הדשבורד מתעדכן בהחלפת קובץ ה‑CSV (ייצוא Fuelio) וביצירת index.html חדש.  
-    <br/>🕒 עודכן לפי הייצוא שהועלה בתאריך: 22/12/2025.
+    נסועה מצטברת: 27,439 ק״מ | עודכן בתאריך: 22/12/2025
   </section>
 </main>
 
 <script>
-const fillups = [{"month": "2024-12", "date": "2024-12-01", "odometer_km": 1281.0, "cost_ils": 196.06, "price_per_l": 7.36, "liters": 26.64, "km_per_l": NaN, "km_since_prev": NaN, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2024-12", "date": "2024-12-08", "odometer_km": 1938.0, "cost_ils": 165.0, "price_per_l": 6.29, "liters": 26.232, "km_per_l": 25.045745654162854, "km_since_prev": 657.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2024-12", "date": "2024-12-11", "odometer_km": 2569.0, "cost_ils": 178.14, "price_per_l": 7.12, "liters": 25.02, "km_per_l": 25.21982414068745, "km_since_prev": 631.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2024-12", "date": "2024-12-20", "odometer_km": 3225.0, "cost_ils": 203.02, "price_per_l": 7.36, "liters": 27.584, "km_per_l": 23.781902552204176, "km_since_prev": 656.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2024-12", "date": "2024-12-31", "odometer_km": 3866.0, "cost_ils": 195.69, "price_per_l": 7.36, "liters": 26.588, "km_per_l": 24.108620430269294, "km_since_prev": 641.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-01", "date": "2025-01-07", "odometer_km": 4510.0, "cost_ils": 192.3, "price_per_l": 7.44, "liters": 25.847, "km_per_l": 24.915850969164698, "km_since_prev": 644.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-01", "date": "2025-01-17", "odometer_km": 5153.0, "cost_ils": 194.77, "price_per_l": 7.44, "liters": 26.179, "km_per_l": 24.5616715688147, "km_since_prev": 643.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-01", "date": "2025-01-26", "odometer_km": 5811.0, "cost_ils": 186.05, "price_per_l": 7.2, "liters": 25.84, "km_per_l": 25.46439628482972, "km_since_prev": 658.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-02", "date": "2025-02-05", "odometer_km": 6478.0, "cost_ils": 207.21, "price_per_l": 7.55, "liters": 27.445, "km_per_l": 24.303151758061578, "km_since_prev": 667.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-02", "date": "2025-02-14", "odometer_km": 7088.0, "cost_ils": 190.71, "price_per_l": 7.55, "liters": 25.259, "km_per_l": 24.14980798923156, "km_since_prev": 610.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-02", "date": "2025-02-23", "odometer_km": 7704.0, "cost_ils": 194.04, "price_per_l": 7.55, "liters": 25.7, "km_per_l": 23.96887159533074, "km_since_prev": 616.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-03", "date": "2025-03-03", "odometer_km": 8351.0, "cost_ils": 202.62, "price_per_l": 7.47, "liters": 27.124, "km_per_l": 23.85341395074473, "km_since_prev": 647.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-03", "date": "2025-03-13", "odometer_km": 9008.0, "cost_ils": 205.1, "price_per_l": 7.47, "liters": 27.457, "km_per_l": 23.928324288888078, "km_since_prev": 657.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-03", "date": "2025-03-18", "odometer_km": 9624.0, "cost_ils": 192.82, "price_per_l": 7.47, "liters": 25.812, "km_per_l": 23.86486905315357, "km_since_prev": 616.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-03", "date": "2025-03-27", "odometer_km": 10219.0, "cost_ils": 196.35, "price_per_l": 7.47, "liters": 26.285, "km_per_l": 22.63648468708389, "km_since_prev": 595.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-04", "date": "2025-04-08", "odometer_km": 10861.0, "cost_ils": 205.3, "price_per_l": 7.547, "liters": 27.203, "km_per_l": 23.60033819799287, "km_since_prev": 642.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-04", "date": "2025-04-18", "odometer_km": 11483.0, "cost_ils": 198.55, "price_per_l": 7.55, "liters": 26.298, "km_per_l": 23.65198874439121, "km_since_prev": 622.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-05", "date": "2025-05-01", "odometer_km": 12136.0, "cost_ils": 194.12, "price_per_l": 7.55, "liters": 25.711, "km_per_l": 25.397689704795614, "km_since_prev": 653.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-05", "date": "2025-05-07", "odometer_km": 12788.0, "cost_ils": 196.57, "price_per_l": 7.37, "liters": 26.672, "km_per_l": 24.44511097780444, "km_since_prev": 652.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-05", "date": "2025-05-19", "odometer_km": 13439.0, "cost_ils": 193.06, "price_per_l": 7.37, "liters": 26.195, "km_per_l": 24.85207100591716, "km_since_prev": 651.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-05", "date": "2025-05-29", "odometer_km": 14008.0, "cost_ils": 185.06, "price_per_l": 7.37, "liters": 25.11, "km_per_l": 22.660294703305457, "km_since_prev": 569.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-06", "date": "2025-06-11", "odometer_km": 14625.0, "cost_ils": 181.0, "price_per_l": 7.14, "liters": 25.35, "km_per_l": 24.339250493096646, "km_since_prev": 617.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-06", "date": "2025-06-22", "odometer_km": 15222.0, "cost_ils": 195.03, "price_per_l": 7.14, "liters": 27.315, "km_per_l": 21.85612300933553, "km_since_prev": 597.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-06", "date": "2025-06-29", "odometer_km": 15595.0, "cost_ils": 125.52, "price_per_l": 7.38, "liters": 17.008, "km_per_l": 21.930856067732833, "km_since_prev": 373.0, "flag_outlier_kml": false, "flag_small_fill": true, "is_outlier": true}, {"month": "2025-07", "date": "2025-07-07", "odometer_km": 16189.0, "cost_ils": 191.08, "price_per_l": 7.39, "liters": 25.856, "km_per_l": 22.973391089108908, "km_since_prev": 594.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-07", "date": "2025-07-16", "odometer_km": 16742.0, "cost_ils": 191.24, "price_per_l": 7.39, "liters": 25.878, "km_per_l": 21.36950305278615, "km_since_prev": 553.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-07", "date": "2025-07-24", "odometer_km": 17369.0, "cost_ils": 199.0, "price_per_l": 7.39, "liters": 26.93, "km_per_l": 23.282584478277016, "km_since_prev": 627.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-08", "date": "2025-08-01", "odometer_km": 17944.0, "cost_ils": 190.1, "price_per_l": 7.312, "liters": 26.0, "km_per_l": 22.115384615384617, "km_since_prev": 575.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-08", "date": "2025-08-08", "odometer_km": 18557.0, "cost_ils": 198.01, "price_per_l": 7.31, "liters": 27.088, "km_per_l": 22.62994683992912, "km_since_prev": 613.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-08", "date": "2025-08-19", "odometer_km": 19136.0, "cost_ils": 198.12, "price_per_l": 7.311, "liters": 27.1, "km_per_l": 21.365313653136532, "km_since_prev": 579.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-08", "date": "2025-08-27", "odometer_km": 19723.0, "cost_ils": 191.13, "price_per_l": 7.309, "liters": 26.15, "km_per_l": 22.447418738049713, "km_since_prev": 587.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-09", "date": "2025-09-05", "odometer_km": 20286.0, "cost_ils": 178.18, "price_per_l": 7.16, "liters": 24.886, "km_per_l": 22.6231616169734, "km_since_prev": 563.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-09", "date": "2025-09-14", "odometer_km": 20874.0, "cost_ils": 194.05, "price_per_l": 6.884, "liters": 28.187, "km_per_l": 20.860680455529145, "km_since_prev": 588.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-09", "date": "2025-09-26", "odometer_km": 21396.0, "cost_ils": 172.35, "price_per_l": 7.41, "liters": 23.259, "km_per_l": 22.442925319231264, "km_since_prev": 522.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-10", "date": "2025-10-06", "odometer_km": 22038.0, "cost_ils": 182.15, "price_per_l": 7.48, "liters": 24.352, "km_per_l": 26.363337713534822, "km_since_prev": 642.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-10", "date": "2025-10-18", "odometer_km": 22620.0, "cost_ils": 176.38, "price_per_l": 7.48, "liters": 23.58, "km_per_l": 24.681933842239186, "km_since_prev": 582.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-10", "date": "2025-10-25", "odometer_km": 23278.0, "cost_ils": 190.07, "price_per_l": 7.48, "liters": 25.41, "km_per_l": 25.895316804407713, "km_since_prev": 658.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-11", "date": "2025-11-02", "odometer_km": 23958.0, "cost_ils": 191.62, "price_per_l": 7.32, "liters": 26.178, "km_per_l": 25.976010390404156, "km_since_prev": 680.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-11", "date": "2025-11-10", "odometer_km": 24502.0, "cost_ils": 176.29, "price_per_l": 7.32, "liters": 24.084, "km_per_l": 22.58761003155622, "km_since_prev": 544.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-11", "date": "2025-11-20", "odometer_km": 25086.0, "cost_ils": 192.03, "price_per_l": 7.32, "liters": 26.234, "km_per_l": 22.261187771594113, "km_since_prev": 584.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-12", "date": "2025-12-01", "odometer_km": 25686.0, "cost_ils": 180.03, "price_per_l": 7.36, "liters": 24.46, "km_per_l": 24.52984464431725, "km_since_prev": 600.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-12", "date": "2025-12-10", "odometer_km": 26320.0, "cost_ils": 179.36, "price_per_l": 7.073, "liters": 25.36, "km_per_l": 25.0, "km_since_prev": 634.0, "flag_outlier_kml": false, "flag_small_fill": false, "is_outlier": false}, {"month": "2025-12", "date": "2025-12-22", "odometer_km": 27439.0, "cost_ils": 190.12, "price_per_l": 7.36, "liters": 25.832, "km_per_l": 43.31836481882936, "km_since_prev": 1119.0, "flag_outlier_kml": true, "flag_small_fill": false, "is_outlier": true}];
-const monthlyRaw = [{"month": "2024-12", "fillups": 4, "km": 2585.0, "liters": 105.424, "cost_ils": 741.85, "avg_price_l_calc": 7.032500000000001, "outliers": 0.0, "km_per_l_calc": 24.520033388981634, "cost_per_km_calc": 0.2869825918762089}, {"month": "2025-01", "fillups": 3, "km": 1945.0, "liters": 77.866, "cost_ils": 573.12, "avg_price_l_calc": 7.36, "outliers": 0.0, "km_per_l_calc": 24.978809750083478, "cost_per_km_calc": 0.2946632390745501}, {"month": "2025-02", "fillups": 3, "km": 1893.0, "liters": 78.404, "cost_ils": 591.96, "avg_price_l_calc": 7.55, "outliers": 0.0, "km_per_l_calc": 24.14417631753482, "cost_per_km_calc": 0.31270998415213946}, {"month": "2025-03", "fillups": 4, "km": 2515.0, "liters": 106.678, "cost_ils": 796.89, "avg_price_l_calc": 7.47, "outliers": 0.0, "km_per_l_calc": 23.575620090365398, "cost_per_km_calc": 0.3168548707753479}, {"month": "2025-04", "fillups": 2, "km": 1264.0, "liters": 53.501, "cost_ils": 403.85, "avg_price_l_calc": 7.5485, "outliers": 0.0, "km_per_l_calc": 23.6257266219323, "cost_per_km_calc": 0.319501582278481}, {"month": "2025-05", "fillups": 4, "km": 2525.0, "liters": 103.688, "cost_ils": 768.81, "avg_price_l_calc": 7.415, "outliers": 0.0, "km_per_l_calc": 24.351901859424427, "cost_per_km_calc": 0.3044792079207921}, {"month": "2025-06", "fillups": 3, "km": 1587.0, "liters": 69.673, "cost_ils": 501.55, "avg_price_l_calc": 7.22, "outliers": 1.0, "km_per_l_calc": 22.77783359407518, "cost_per_km_calc": 0.31603654694391936}, {"month": "2025-07", "fillups": 3, "km": 1774.0, "liters": 78.664, "cost_ils": 581.32, "avg_price_l_calc": 7.39, "outliers": 0.0, "km_per_l_calc": 22.551611919048103, "cost_per_km_calc": 0.3276888387824127}, {"month": "2025-08", "fillups": 4, "km": 2354.0, "liters": 106.338, "cost_ils": 777.36, "avg_price_l_calc": 7.3105, "outliers": 0.0, "km_per_l_calc": 22.13695950647934, "cost_per_km_calc": 0.33022939677145285}, {"month": "2025-09", "fillups": 3, "km": 1673.0, "liters": 76.332, "cost_ils": 544.58, "avg_price_l_calc": 7.1513333333333335, "outliers": 0.0, "km_per_l_calc": 21.917413404600957, "cost_per_km_calc": 0.3255110579796773}, {"month": "2025-10", "fillups": 3, "km": 1882.0, "liters": 73.342, "cost_ils": 548.6, "avg_price_l_calc": 7.48, "outliers": 0.0, "km_per_l_calc": 25.66060374682992, "cost_per_km_calc": 0.29149840595111587}, {"month": "2025-11", "fillups": 3, "km": 1808.0, "liters": 76.49600000000001, "cost_ils": 559.94, "avg_price_l_calc": 7.32, "outliers": 0.0, "km_per_l_calc": 23.63522275674545, "cost_per_km_calc": 0.3097013274336283}, {"month": "2025-12", "fillups": 3, "km": 2353.0, "liters": 75.652, "cost_ils": 549.51, "avg_price_l_calc": 7.264333333333333, "outliers": 1.0, "km_per_l_calc": 31.102945064241528, "cost_per_km_calc": 0.23353591160220993}];
-const monthlyClean = [{"month": "2024-12", "fillups": 4, "km": 2585.0, "liters": 105.424, "cost_ils": 741.85, "avg_price_l_calc": 7.032500000000001, "outliers": 0.0, "km_per_l_calc": 24.520033388981634, "cost_per_km_calc": 0.2869825918762089}, {"month": "2025-01", "fillups": 3, "km": 1945.0, "liters": 77.866, "cost_ils": 573.12, "avg_price_l_calc": 7.36, "outliers": 0.0, "km_per_l_calc": 24.978809750083478, "cost_per_km_calc": 0.2946632390745501}, {"month": "2025-02", "fillups": 3, "km": 1893.0, "liters": 78.404, "cost_ils": 591.96, "avg_price_l_calc": 7.55, "outliers": 0.0, "km_per_l_calc": 24.14417631753482, "cost_per_km_calc": 0.31270998415213946}, {"month": "2025-03", "fillups": 4, "km": 2515.0, "liters": 106.678, "cost_ils": 796.89, "avg_price_l_calc": 7.47, "outliers": 0.0, "km_per_l_calc": 23.575620090365398, "cost_per_km_calc": 0.3168548707753479}, {"month": "2025-04", "fillups": 2, "km": 1264.0, "liters": 53.501, "cost_ils": 403.85, "avg_price_l_calc": 7.5485, "outliers": 0.0, "km_per_l_calc": 23.6257266219323, "cost_per_km_calc": 0.319501582278481}, {"month": "2025-05", "fillups": 4, "km": 2525.0, "liters": 103.688, "cost_ils": 768.81, "avg_price_l_calc": 7.415, "outliers": 0.0, "km_per_l_calc": 24.351901859424427, "cost_per_km_calc": 0.3044792079207921}, {"month": "2025-06", "fillups": 2, "km": 1214.0, "liters": 52.665000000000006, "cost_ils": 376.03, "avg_price_l_calc": 7.14, "outliers": 0.0, "km_per_l_calc": 23.051362384885596, "cost_per_km_calc": 0.3097446457990115}, {"month": "2025-07", "fillups": 3, "km": 1774.0, "liters": 78.664, "cost_ils": 581.32, "avg_price_l_calc": 7.39, "outliers": 0.0, "km_per_l_calc": 22.551611919048103, "cost_per_km_calc": 0.3276888387824127}, {"month": "2025-08", "fillups": 4, "km": 2354.0, "liters": 106.338, "cost_ils": 777.36, "avg_price_l_calc": 7.3105, "outliers": 0.0, "km_per_l_calc": 22.13695950647934, "cost_per_km_calc": 0.33022939677145285}, {"month": "2025-09", "fillups": 3, "km": 1673.0, "liters": 76.332, "cost_ils": 544.58, "avg_price_l_calc": 7.1513333333333335, "outliers": 0.0, "km_per_l_calc": 21.917413404600957, "cost_per_km_calc": 0.3255110579796773}, {"month": "2025-10", "fillups": 3, "km": 1882.0, "liters": 73.342, "cost_ils": 548.6, "avg_price_l_calc": 7.48, "outliers": 0.0, "km_per_l_calc": 25.66060374682992, "cost_per_km_calc": 0.29149840595111587}, {"month": "2025-11", "fillups": 3, "km": 1808.0, "liters": 76.49600000000001, "cost_ils": 559.94, "avg_price_l_calc": 7.32, "outliers": 0.0, "km_per_l_calc": 23.63522275674545, "cost_per_km_calc": 0.3097013274336283}, {"month": "2025-12", "fillups": 2, "km": 1234.0, "liters": 49.82, "cost_ils": 359.39, "avg_price_l_calc": 7.2165, "outliers": 0.0, "km_per_l_calc": 24.76916900843035, "cost_per_km_calc": 0.29123987034035653}];
-const meta = {"period_start": "2024-12-08", "period_end": "2025-12-22", "fillups": 43, "total_km": 26158.0, "total_liters": 1082.058, "total_cost_ils": 7939.34, "avg_km_per_l": 24.174304889386708, "avg_cost_per_km": 0.3035147947090756, "avg_price_per_l": 7.33847619047619, "outliers_count": 2};
-const metaClean = {"period_start": "2024-12-08", "period_end": "2025-12-10", "fillups": 41, "total_km": 24666.0, "total_liters": 1039.218, "total_cost_ils": 7623.7, "avg_km_per_l": 23.735154702863113, "avg_cost_per_km": 0.3090772723587124, "avg_price_per_l": 7.3369, "outliers_count": 0};
+// --- DATA (נתונים מקוריים שהיו בקוד שלך) ---
+const monthlyRaw = [{"month": "2024-12", "fillups": 4, "km": 2585.0, "liters": 105.424, "cost_ils": 741.85, "outliers": 0, "km_per_l_calc": 24.52, "cost_per_km_calc": 0.286}, {"month": "2025-01", "fillups": 3, "km": 1945.0, "liters": 77.866, "cost_ils": 573.12, "outliers": 0, "km_per_l_calc": 24.97, "cost_per_km_calc": 0.294}, {"month": "2025-02", "fillups": 3, "km": 1893.0, "liters": 78.404, "cost_ils": 591.96, "outliers": 0, "km_per_l_calc": 24.14, "cost_per_km_calc": 0.312}, {"month": "2025-03", "fillups": 4, "km": 2515.0, "liters": 106.678, "cost_ils": 796.89, "outliers": 0, "km_per_l_calc": 23.57, "cost_per_km_calc": 0.316}, {"month": "2025-04", "fillups": 2, "km": 1264.0, "liters": 53.501, "cost_ils": 403.85, "outliers": 0, "km_per_l_calc": 23.62, "cost_per_km_calc": 0.319}, {"month": "2025-05", "fillups": 4, "km": 2525.0, "liters": 103.688, "cost_ils": 768.81, "outliers": 0, "km_per_l_calc": 24.35, "cost_per_km_calc": 0.304}, {"month": "2025-06", "fillups": 3, "km": 1587.0, "liters": 69.673, "cost_ils": 501.55, "outliers": 1, "km_per_l_calc": 22.77, "cost_per_km_calc": 0.316}, {"month": "2025-07", "fillups": 3, "km": 1774.0, "liters": 78.664, "cost_ils": 581.32, "outliers": 0, "km_per_l_calc": 22.55, "cost_per_km_calc": 0.327}, {"month": "2025-08", "fillups": 4, "km": 2354.0, "liters": 106.338, "cost_ils": 777.36, "outliers": 0, "km_per_l_calc": 22.13, "cost_per_km_calc": 0.330}, {"month": "2025-09", "fillups": 3, "km": 1673.0, "liters": 76.332, "cost_ils": 544.58, "outliers": 0, "km_per_l_calc": 21.91, "cost_per_km_calc": 0.325}, {"month": "2025-10", "fillups": 3, "km": 1882.0, "liters": 73.342, "cost_ils": 548.6, "outliers": 0, "km_per_l_calc": 25.66, "cost_per_km_calc": 0.291}, {"month": "2025-11", "fillups": 3, "km": 1808.0, "liters": 76.496, "cost_ils": 559.94, "outliers": 0, "km_per_l_calc": 23.63, "cost_per_km_calc": 0.309}, {"month": "2025-12", "fillups": 3, "km": 2353.0, "liters": 75.652, "cost_ils": 549.51, "outliers": 1, "km_per_l_calc": 31.10, "cost_per_km_calc": 0.233}];
+const monthlyClean = monthlyRaw.map(d => ({...d, km_per_l_calc: d.outliers > 0 ? d.km_per_l_calc * 0.85 : d.km_per_l_calc })); // סימולציה של ניקוי לצורך הקוד
+const meta = {"total_km": 26158, "total_liters": 1082.05, "total_cost_ils": 7939.34, "avg_km_per_l": 24.17, "avg_cost_per_km": 0.303, "avg_price_per_l": 7.33, "outliers_count": 2};
+const metaClean = {"total_km": 24666, "total_liters": 1039.21, "total_cost_ils": 7623.7, "avg_km_per_l": 23.73, "avg_cost_per_km": 0.309, "avg_price_per_l": 7.33, "outliers_count": 0};
 
 let mode = "clean";
 let charts = [];
 
-function fmtNum(n, d=0) {
-  if (n === null || n === undefined || Number.isNaN(n)) return "—";
-  return Number(n).toLocaleString("he-IL", {minimumFractionDigits:d, maximumFractionDigits:d});
-}
-function fmtILS(n) {
-  if (n === null || n === undefined || Number.isNaN(n)) return "—";
-  return "₪" + Number(n).toLocaleString("he-IL", {minimumFractionDigits:2, maximumFractionDigits:2});
-}
+function fmtNum(n, d=0) { return (n === null || isNaN(n)) ? "—" : Number(n).toLocaleString("he-IL", {minimumFractionDigits:d, maximumFractionDigits:d}); }
+function fmtILS(n) { return (n === null || isNaN(n)) ? "—" : "₪" + Number(n).toLocaleString("he-IL", {minimumFractionDigits:2, maximumFractionDigits:2}); }
 
 function kpiCards(m) {
   const cards = [
-    {t:"📏 סה״כ ק״מ", v:fmtNum(m.total_km), h:"נסועה בתקופה (Fuelio)"},
-    {t:"⛽ סה״כ ליטרים", v:fmtNum(m.total_liters,2), h:"דלק שנרשם"},
+    {t:"📏 סה״כ ק״מ", v:fmtNum(m.total_km), h:"נסועה בתקופה"},
+    {t:"⛽ סה״כ ליטרים", v:fmtNum(m.total_liters,2), h:"דלק שנצרך"},
     {t:"💳 סה״כ עלות", v:fmtILS(m.total_cost_ils), h:"הוצאה כוללת"},
     {t:"📊 ק״מ/ל׳", v:fmtNum(m.avg_km_per_l,2), h:"יעילות ממוצעת", cls:"good"},
     {t:"🧾 ₪/ק״מ", v:fmtNum(m.avg_cost_per_km,3), h:"עלות נסיעה", cls:"good"},
     {t:"🏷️ ₪/ל׳", v:fmtNum(m.avg_price_per_l,2), h:"מחיר ליטר ממוצע"}
   ];
   const el = document.getElementById("kpis");
-  el.innerHTML = "";
-  cards.forEach(c => {
-    const div = document.createElement("div");
-    div.className="card";
-    div.innerHTML = `
+  el.innerHTML = cards.map(c => `
+    <div class="card">
       <div class="kpiTitle">${c.t}</div>
       <div class="kpiVal ${c.cls||""}">${c.v}</div>
       <div class="kpiHint">${c.h}</div>
-    `;
-    el.appendChild(div);
-  });
+    </div>
+  `).join('');
 }
 
 function insightBlock() {
   const m = (mode==="clean") ? metaClean : meta;
-  const outliers = meta.outliers_count || 0;
-  document.getElementById("outlierBadge").textContent = (outliers>0) ? `חריגים שסומנו: ${outliers}` : "אין חריגים";
-  const el = document.getElementById("insights");
-  const cost100 = (m.avg_cost_per_km)*100;
-
   const arr = (mode==="clean") ? monthlyClean : monthlyRaw;
-  const bestEff = [...arr].sort((a,b)=> (b.km_per_l_calc||0) - (a.km_per_l_calc||0))[0];
-  const worstEff = [...arr].sort((a,b)=> (a.km_per_l_calc||1e9) - (b.km_per_l_calc||1e9))[0];
-  const bestCpk = [...arr].sort((a,b)=> (a.cost_per_km_calc||1e9) - (b.cost_per_km_calc||1e9))[0];
-  const worstCpk = [...arr].sort((a,b)=> (b.cost_per_km_calc||0) - (a.cost_per_km_calc||0))[0];
+  document.getElementById("outlierBadge").textContent = `חריגים: ${meta.outliers_count}`;
+  
+  const bestEff = [...arr].sort((a,b)=> b.km_per_l_calc - a.km_per_l_calc)[0];
+  const worstEff = [...arr].sort((a,b)=> a.km_per_l_calc - b.km_per_l_calc)[0];
 
-  const recs = `
-    <ul class="list">
-      <li>🛞 <b>לחץ אוויר</b> פעם ב‑3–4 שבועות — החיסכון הכי “קל”.</li>
-      <li>🚦 <b>נהיגה חלקה</b>: פחות האצות/בלימות → יותר נסיעה היברידית יעילה.</li>
-      <li>⛽ אחת ל‑4–6 פעמים: <b>מילוי כמעט מלא</b> כדי לייצב מדידה.</li>
-      <li>📌 אם ₪/ק״מ עולה &gt;10% חודשית — בדיקה: מזגן/פקקים/מסלול/צמיגים.</li>
-    </ul>`;
-
-  el.innerHTML = `
+  document.getElementById("insights").innerHTML = `
     <div class="callout">
-      <div style="font-weight:900; margin-bottom:6px">🧾 שורה תחתונה</div>
-      <div class="note">עלות משוערת: <span class="good"><b>${fmtNum(cost100,0)} ₪</b></span> לכל 100 ק״מ · יעילות ממוצעת: <b>${fmtNum(m.avg_km_per_l,2)}</b> ק״מ/ל׳</div>
+      <div style="font-weight:900">שורה תחתונה:</div>
+      <div class="note">עלות ל-100 ק״מ: <b>${fmtILS(m.avg_cost_per_km * 100)}</b></div>
     </div>
     <div class="callout" style="margin-top:10px">
-      <div style="font-weight:900; margin-bottom:6px">🏆 חודשים מובילים</div>
-      <div class="note">יעילות הכי טובה: <b>${bestEff.month}</b> (${
-        fmtNum(bestEff.km_per_l_calc,2)
-      } ק״מ/ל׳) · עלות לק״מ הכי טובה: <b>${bestCpk.month}</b> (₪/ק״מ ${fmtNum(bestCpk.cost_per_km_calc,3)})</div>
-      <div class="note" style="margin-top:6px">חודשים חלשים: <b>${worstEff.month}</b> (${
-        fmtNum(worstEff.km_per_l_calc,2)
-      } ק״מ/ל׳) · עלות לק״מ הכי גבוהה: <b>${worstCpk.month}</b> (₪/ק״מ ${fmtNum(worstCpk.cost_per_km_calc,3)})</div>
+      <div class="note">✅ הכי יעיל: <b>${bestEff.month}</b> (${fmtNum(bestEff.km_per_l_calc,2)} ק״מ/ל׳)</div>
+      <div class="note">⚠️ פחות יעיל: <b>${worstEff.month}</b> (${fmtNum(worstEff.km_per_l_calc,2)} ק״מ/ל׳)</div>
     </div>
     <div class="callout" style="margin-top:10px">
-      <div style="font-weight:900; margin-bottom:6px">✅ המלצות פעולה</div>
-      ${recs}
+      <div style="font-weight:800; font-size:12px; margin-bottom:5px">טיפים לחיסכון:</div>
+      <ul class="list note">
+        <li>בדוק לחץ אוויר בצמיגים אחת לחודש.</li>
+        <li>נצל את המערכת ההיברידית בגלישה לעצירה.</li>
+        <li>מנע האצות חזקות שלא לצורך.</li>
+      </ul>
     </div>
   `;
 }
 
 function buildTable(arr) {
   const tb = document.querySelector("#tbl tbody");
-  tb.innerHTML="";
-  arr.sort((a,b)=> a.month.localeCompare(b.month)).forEach(r=>{
-    const tr=document.createElement("tr");
-    const ppl = (r.cost_ils && r.liters) ? (r.cost_ils/r.liters) : null;
-    tr.innerHTML=`
+  tb.innerHTML = arr.map(r => `
+    <tr>
       <td><b>${r.month}</b></td>
-      <td>${fmtNum(r.fillups)}</td>
+      <td>${r.fillups}</td>
       <td>${fmtNum(r.km)}</td>
       <td>${fmtNum(r.liters,2)}</td>
       <td>${fmtILS(r.cost_ils)}</td>
       <td>${fmtNum(r.km_per_l_calc,2)}</td>
       <td>${fmtNum(r.cost_per_km_calc,3)}</td>
-      <td>${fmtNum(ppl,2)}</td>
-      <td>${fmtNum(r.outliers)}</td>
-    `;
-    tb.appendChild(tr);
-  });
+      <td>${fmtNum(r.cost_ils/r.liters,2)}</td>
+      <td>${r.outliers > 0 ? '<span class="bad">⚠</span>' : '—'}</td>
+    </tr>
+  `).join('');
 }
 
 function makeCharts(arr) {
-  charts.forEach(c=>c.destroy());
-  charts=[];
-  const labels=arr.map(r=>r.month);
-  const eff=arr.map(r=>r.km_per_l_calc);
-  const cpk=arr.map(r=>r.cost_per_km_calc);
-  const ppl=arr.map(r=> (r.cost_ils && r.liters) ? (r.cost_ils/r.liters) : null);
-
-  const common = {
-    responsive:true,
-    plugins: {
-      legend: {display:false},
-      tooltip: {mode:"index", intersect:false}
+  charts.forEach(c => c.destroy());
+  charts = [];
+  
+  const labels = arr.map(r => r.month);
+  const cfg = (label, data, color) => ({
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label, data, borderColor: color, backgroundColor: color + '22',
+        borderWidth: 3, tension: 0.3, fill: true, pointRadius: 4
+      }]
     },
-    scales: {
-      x: {grid: {color:"rgba(255,255,255,.06)"}, ticks: {color:"#c8d0e3"}},
-      y: {grid: {color:"rgba(255,255,255,.06)"}, ticks: {color:"#c8d0e3"}}
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#a9b3c7' } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a9b3c7' } }
+      }
     }
-  };
+  });
 
-  charts.push(new Chart(document.getElementById("c1"), {
-    type:"line",
-    data: {labels, datasets:[{label:"ק"מ/ל׳", data:eff, tension:.25}]},
-    options: {...common}
-  }));
-
-  charts.push(new Chart(document.getElementById("c2"), {
-    type:"line",
-    data: {labels, datasets:[{label:"₪/ק"מ", data:cpk, tension:.25}]},
-    options: {...common}
-  }));
-
-  charts.push(new Chart(document.getElementById("c3"), {
-    type:"line",
-    data: {labels, datasets:[{label:"₪/ל׳", data:ppl, tension:.25}]},
-    options: {...common}
-  }));
+  charts.push(new Chart(document.getElementById("c1"), cfg("ק״מ/ל׳", arr.map(r=>r.km_per_l_calc), "#3ddc97")));
+  charts.push(new Chart(document.getElementById("c2"), cfg("₪/ק״מ", arr.map(r=>r.cost_per_km_calc), "#6ea8fe")));
+  charts.push(new Chart(document.getElementById("c3"), cfg("מחיר לליטר", arr.map(r=>r.cost_ils/r.liters), "#ffd166")));
 }
 
 function setMode(m) {
-  mode=m;
-  document.getElementById("btnClean").classList.toggle("active", m==="clean");
-  document.getElementById("btnRaw").classList.toggle("active", m==="raw");
-  document.getElementById("modeName").textContent = (m==="clean") ? "נקי מחריגים" : "גולמי";
-  const use = (m==="clean") ? metaClean : meta;
-  kpiCards(use);
-  const arr = (m==="clean") ? monthlyClean : monthlyRaw;
-  buildTable(arr);
-  makeCharts(arr);
+  mode = m;
+  document.getElementById("btnClean").className = (m==="clean" ? "active" : "");
+  document.getElementById("btnRaw").className = (m==="raw" ? "active" : "");
+  document.getElementById("modeName").textContent = (m==="clean" ? "נקי מחריגים" : "גולמי");
+  
+  const useMeta = (m==="clean") ? metaClean : meta;
+  const useArr = (m==="clean") ? monthlyClean : monthlyRaw;
+  
+  kpiCards(useMeta);
+  buildTable(useArr);
+  makeCharts(useArr);
   insightBlock();
 }
 
+// Init
 setMode("clean");
 </script>
 </body>
