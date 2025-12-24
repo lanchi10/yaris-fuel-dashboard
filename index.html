@@ -1,234 +1,920 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>דשבורד דלק — Toyota Yaris Cross 2024</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <style>
-    :root {
-      --bg1:#0b1220; --bg2:#101a33; --card:#111c36; --muted:#a9b3c7;
-      --txt:#f3f6ff; --good:#3ddc97; --warn:#ffd166; --bad:#ff5c7a; --accent:#6ea8fe;
-      --line:#233154;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Arial; background:radial-gradient(1200px 800px at 85% -10%, #1b2a5a 0%, var(--bg1) 45%, #050814 100%); color:var(--txt); line-height: 1.5}
-    header{padding:22px 18px 10px; position:sticky; top:0; backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.55)); border-bottom:1px solid rgba(255,255,255,.06); z-index:100}
-    .wrap{max-width:1100px;margin:0 auto}
-    h1{margin:0;font-size:20px; letter-spacing:.2px}
-    .sub{color:var(--muted); margin-top:6px; font-size:13px; line-height:1.35}
-    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid rgba(255,255,255,.08); border-radius:999px; color:var(--muted); font-size:12px}
-    .grid{display:grid; gap:12px}
-    .kpis{grid-template-columns:repeat(auto-fit, minmax(150px, 1fr))}
-    .card{background:linear-gradient(180deg, rgba(17,28,54,.95), rgba(17,28,54,.75)); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; height: 100%;}
-    .kpiTitle{color:var(--muted); font-size:12px}
-    .kpiVal{font-size:22px; margin-top:6px; font-weight:800}
-    .kpiHint{color:var(--muted); font-size:11px; margin-top:4px}
-    .badge{display:inline-block; padding:3px 8px; border-radius:999px; font-size:11px; border:1px solid rgba(255,255,255,.12); color:var(--muted)}
-    .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-    .row{display:grid; grid-template-columns: 1.4fr 0.6fr; gap:12px; align-items:start}
-    .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    .chart-container { position: relative; height:280px; width:100% }
-    table{width:100%; border-collapse:collapse; font-size:13px; min-width: 600px}
-    th,td{padding:12px 8px; border-bottom:1px solid rgba(255,255,255,.08)}
-    th{text-align:right; color:var(--muted); font-weight:600; position:sticky; top:0; background:#111c36}
-    tr:hover td{background:rgba(110,168,254,.06)}
-    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    button{cursor:pointer; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--txt); padding:9px 16px; border-radius:12px; font-weight:700; transition: 0.2s}
-    button.active{border-color:var(--accent); background:rgba(110,168,254,0.1); color:var(--accent)}
-    .note{color:var(--muted); font-size:12px; line-height:1.45}
-    .callout{border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding:12px; background:rgba(255,255,255,.03)}
-    .list{margin:0; padding-right:18px}
-    .list li{margin:6px 0}
-    .footer{padding:28px 18px; color:var(--muted); font-size:12px; text-align: center}
-    
-    @media (max-width:980px){
-      .kpis{grid-template-columns:repeat(2,1fr)}
-      .row{grid-template-columns:1fr}
-      .row2{grid-template-columns:1fr}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚗 דוח הרכב המיוחד של מרים - טויוטה יאריס קרוס 2024</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '🌟';
+            font-size: 200px;
+            position: absolute;
+            top: -50px;
+            left: -30px;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .header p {
+            font-size: 1.5em;
+            opacity: 0.95;
+        }
+        
+        .emoji-large {
+            font-size: 4em;
+            display: block;
+            margin: 20px 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+        }
+        
+        .hero-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s ease-in-out infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .stat-icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 900;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin: 40px 0;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #f093fb;
+            display: inline-block;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin: 30px 0;
+            position: relative;
+            animation: slideInRight 0.6s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .timeline-dot {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-left: 20px;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+            flex-shrink: 0;
+        }
+        
+        .timeline-content {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 15px;
+            flex: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-content h3 {
+            color: #c94b4b;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .month-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .month-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .month-card.excellent {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .month-card.good {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .month-card.average {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .month-card.poor {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+        
+        .month-name {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .month-stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .achievement-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 3px solid #f5576c;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.2);
+        }
+        
+        .achievement-box h3 {
+            color: #c94b4b;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .achievement-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-right: 5px solid #f5576c;
+            transition: transform 0.3s ease;
+        }
+        
+        .achievement-item:hover {
+            transform: translateX(-10px);
+        }
+        
+        .achievement-icon {
+            font-size: 2em;
+            margin-left: 15px;
+        }
+        
+        .chart-container {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .bar-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 300px;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .bar {
+            flex: 1;
+            margin: 0 5px;
+            background: linear-gradient(to top, #667eea 0%, #764ba2 100%);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: growUp 1s ease-out;
+        }
+        
+        @keyframes growUp {
+            from {
+                height: 0;
+            }
+        }
+        
+        .bar:hover {
+            filter: brightness(1.2);
+            transform: scaleY(1.05);
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            left: 0;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            right: 0;
+            left: 0;
+            text-align: center;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 3px solid #00d2ff;
+            transition: transform 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .tip-icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .tip-title {
+            font-size: 1.5em;
+            color: #00838f;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        
+        .footer-heart {
+            font-size: 3em;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+        }
+        
+        .congrats-banner {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+            animation: wiggle 1s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            padding: 2px 8px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .stat-card:hover, .month-card:hover, .tip-card:hover {
+                transform: none;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div style="display:flex; gap:12px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap">
-      <div>
-        <h1>⛽ דשבורד דלק — Toyota Yaris Cross 2024</h1>
-        <div class="sub">מקור אמת: <b>Fuelio</b> · תקופת מדידה: דצמבר 2024 - דצמבר 2025</div>
-      </div>
-      <div class="pill">🧠 מצב: <span id="modeName">נקי מחריגים</span> · <span class="badge" id="outlierBadge"></span></div>
+    <div class="container">
+        <div class="header">
+            <span class="emoji-large">📊</span>
+            <h1>דוח ביצועים שנתי</h1>
+            <p>טויוטה יאריס קרוס 2024 - ניתוח צריכת דלק ותחזוקה</p>
+            <span class="emoji-large">🚗</span>
+        </div>
+        
+        <div class="content">
+            <div class="hero-section">
+                <h2>סיכום תקופת הדיווח</h2>
+                <p style="font-size: 1.3em; margin-top: 20px;">
+                    דוח ניתוח צריכת דלק וביצועי רכב<br>
+                    תקופת מעקב: <strong>1 בדצמבר 2024 - 22 בדצמבר 2025</strong><br>
+                    משך התקופה: <strong>387 ימים</strong> (12.7 חודשים)
+                </p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-icon">🛣️</span>
+                    <div class="stat-value">26,158</div>
+                    <div class="stat-label">ק״מ מתועדים</div>
+                    <p style="margin-top: 10px; font-size: 0.9em;">מרחק כולל בתקופת המעקב</p>
+                </div>
+                
+                <div class="stat-card">
+                    <span class="stat-icon">⛽</span>
+                    <div class="stat-value">24.12</div>
+                    <div class="stat-label">ק״מ/ליטר - ממוצע</div>
+                    <p style="margin-top: 10px; font-size: 0.9em;">צריכת דלק ממוצעת לתקופה</p>
+                </div>
+                
+                <div class="stat-card">
+                    <span class="stat-icon">💰</span>
+                    <div class="stat-value">₪0.31</div>
+                    <div class="stat-label">עלות לקילומטר</div>
+                    <p style="margin-top: 10px; font-size: 0.9em;">עלות דלק ממוצעת לק״מ</p>
+                </div>
+                
+                <div class="stat-card">
+                    <span class="stat-icon">📅</span>
+                    <div class="stat-value">67.6</div>
+                    <div class="stat-label">ק״מ ביום בממוצע</div>
+                    <p style="margin-top: 10px; font-size: 0.9em;">נסיעה יומית ממוצעת</p>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%); border-radius: 20px; padding: 30px; margin: 30px 0; border: 2px solid #6366f1;">
+                <h3 style="color: #4338ca; font-size: 1.5em; margin-bottom: 15px;">מסקנה ראשונית</h3>
+                <p style="color: #1e293b; font-size: 1.1em; line-height: 1.7;">
+                    הרכב מציג ביצועים עקביים בתקופת המעקב. צריכת הדלק הממוצעת של 24.12 ק״מ/ליטר 
+                    תואמת את המפרט הטכני של יצרן הרכב לדגם היברידי זה.
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">📋 ציר זמן מפורט - תקופת המעקב</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">🚗</div>
+                        <div class="timeline-content">
+                            <h3>נובמבר 2024 - תקופה טרום-מעקב</h3>
+                            <p><strong>תחילת שימוש ברכב: תחילת נובמבר 2024</strong></p>
+                            <p>הרכב החל לפעול בחודש זה. עד לתחילת הרישום במערכת Fuelio נצברו 1,281 ק״מ.</p>
+                            <p><strong>שימו לב:</strong> תקופה זו אינה כלולה בניתוח הצריכה מכיוון שלא קיימים נתוני תדלוק.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">⛽</div>
+                        <div class="timeline-content">
+                            <h3>1 בדצמבר 2024 - תחילת המעקב</h3>
+                            <p><strong>תדלוק ראשון מתועד במערכת Fuelio</strong></p>
+                            <p>מד קילומטרים: <span class="highlight">1,281 ק״מ</span></p>
+                            <p>החל מתאריך זה, כל תדלוק ונתוני צריכה מתועדים באופן שיטתי במערכת ניהול הדלק.</p>
+                            <p>נתונים אלו מהווים את הבסיס לניתוח הסטטיסטי בדוח זה.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📊</div>
+                        <div class="timeline-content">
+                            <h3>ינואר 2025 - חודש מלא ראשון</h3>
+                            <p><strong>תקופת מעקב מלאה ראשונה</strong></p>
+                            <p>צריכה ממוצעת: <span class="highlight">24.99 ק״מ/ליטר</span></p>
+                            <p>התוצאות מצביעות על ביצועים תקינים בתנאי חורף, עם יעילות דלק גבוהה יחסית.</p>
+                            <p>💵 עלות חודשית: ₪573 | 📏 מרחק: 1,301 ק״מ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📈</div>
+                        <div class="timeline-content">
+                            <h3>פברואר - המשך יציבות</h3>
+                            <p>צריכה ממוצעת נשמרה ברמה דומה: <span class="highlight">24.15 ק״מ/ליטר</span></p>
+                            <p>הנתונים מצביעים על עקביות בדפוסי השימוש ועל תפקוד תקין של מערכות הרכב.</p>
+                            <p>💵 עלות חודשית: ₪592</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">🚗</div>
+                        <div class="timeline-content">
+                            <h3>מרץ - עלייה בנפח נסיעה</h3>
+                            <p>4 תדלוקים בחודש זה מצביעים על שימוש מוגבר ברכב.</p>
+                            <p>צריכה: 23.57 ק״מ/ליטר - ירידה קלה הנובעת מתנאי נסיעה משתנים.</p>
+                            <p>💵 עלות חודשית: ₪797</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📉</div>
+                        <div class="timeline-content">
+                            <h3>אפריל - חודש בעל עלות נמוכה</h3>
+                            <p>2 תדלוקים בלבד בחודש זה, עלות כוללת: <span class="highlight">₪404</span></p>
+                            <p>העלות הנמוכה ביותר בתקופת המעקב, הנובעת מנפח נסיעה מופחת.</p>
+                            <p>צריכה: 23.61 ק״מ/ליטר</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📊</div>
+                        <div class="timeline-content">
+                            <h3>מאי - חזרה לנפח נסיעה רגיל</h3>
+                            <p>4 תדלוקים בחודש, חזרה לדפוס נסיעה סטנדרטי.</p>
+                            <p>צריכה: 24.35 ק״מ/ליטר - שיפור קל ביחס לחודשים קודמים.</p>
+                            <p>💵 עלות חודשית: ₪769</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">🌡️</div>
+                        <div class="timeline-content">
+                            <h3>יוני-אוגוסט - תקופת הקיץ</h3>
+                            <p><strong>השפעת טמפרטורות גבוהות על צריכה</strong></p>
+                            <p>בחודשי הקיץ נרשמה ירידה בצריכת הדלק, עם שפל בחודש אוגוסט (22.15 ק״מ/ליטר).</p>
+                            <p>הירידה נובעת בעיקר משימוש אינטנסיבי במערכת המיזוג בטמפרטורות גבוהות.</p>
+                            <p>💵 עלות ממוצעת: ₪624 לחודש</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📈</div>
+                        <div class="timeline-content">
+                            <h3>אוקטובר - שיפור בצריכה</h3>
+                            <p><strong>תחילת מגמת שיפור</strong></p>
+                            <p>עם סיום העונה החמה, נרשם שיפור משמעותי: <span class="highlight">25.66 ק״מ/ליטר</span></p>
+                            <p>הירידה בטמפרטורות והפחתת השימוש במיזוג תרמו לשיפור ביעילות הדלק.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot">📊</div>
+                        <div class="timeline-content">
+                            <h3>דצמבר - צריכה אופטימלית</h3>
+                            <p><strong>הביצועים הטובים ביותר בתקופת המעקב</strong></p>
+                            <p>בדצמבר נרשמה הצריכה הטובה ביותר: <span class="highlight">31.27 ק״מ/ליטר</span></p>
+                            <p>התוצאה משקפת שילוב של תנאי מזג אוויר אופטימליים, דפוסי נסיעה יעילים ותפקוד מיטבי של מערכות הרכב.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">📊 סיכום חודשי מפורט</h2>
+                
+                <div class="month-grid">
+                    <div class="month-card excellent">
+                        <div class="month-name">ינואר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>24.99 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪573</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים טובים</strong></div>
+                    </div>
+                    
+                    <div class="month-card excellent">
+                        <div class="month-name">פברואר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>24.15 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪592</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים טובים</strong></div>
+                    </div>
+                    
+                    <div class="month-card good">
+                        <div class="month-name">מרץ</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>23.57 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪797</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים תקינים</strong></div>
+                    </div>
+                    
+                    <div class="month-card excellent">
+                        <div class="month-name">אפריל</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>23.61 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪404</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>עלות נמוכה</strong></div>
+                    </div>
+                    
+                    <div class="month-card good">
+                        <div class="month-name">מאי</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>24.35 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪769</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים תקינים</strong></div>
+                    </div>
+                    
+                    <div class="month-card average">
+                        <div class="month-name">יוני</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>22.70 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪502</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>מושפע מזג אוויר</strong></div>
+                    </div>
+                    
+                    <div class="month-card average">
+                        <div class="month-name">יולי</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>22.54 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪581</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>מושפע מזג אוויר</strong></div>
+                    </div>
+                    
+                    <div class="month-card poor">
+                        <div class="month-name">אוגוסט</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>22.15 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪777</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>השפעת קיץ</strong></div>
+                    </div>
+                    
+                    <div class="month-card average">
+                        <div class="month-name">ספטמבר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>22.31 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪545</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>מושפע מזג אוויר</strong></div>
+                    </div>
+                    
+                    <div class="month-card excellent">
+                        <div class="month-name">אוקטובר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>25.66 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪549</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>שיפור משמעותי</strong></div>
+                    </div>
+                    
+                    <div class="month-card good">
+                        <div class="month-name">נובמבר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>23.60 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪560</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים תקינים</strong></div>
+                    </div>
+                    
+                    <div class="month-card excellent">
+                        <div class="month-name">דצמבר</div>
+                        <div class="month-stat"><span>צריכה:</span><strong>31.27 ק״מ/ל</strong></div>
+                        <div class="month-stat"><span>עלות:</span><strong>₪550</strong></div>
+                        <div class="month-stat"><span>דירוג:</span><strong>ביצועים אופטימליים</strong></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h2 style="color: #4a148c; margin-bottom: 20px;">📈 גרף צריכת הדלק לאורך השנה</h2>
+                <p style="color: #4a148c; margin-bottom: 20px;">ככל שהעמודה גבוהה יותר - הביצועים טובים יותר! 📊</p>
+                <div class="bar-chart">
+                    <div class="bar" style="height: 80%;">
+                        <div class="bar-value">24.99</div>
+                        <div class="bar-label">ינו׳</div>
+                    </div>
+                    <div class="bar" style="height: 77%;">
+                        <div class="bar-value">24.15</div>
+                        <div class="bar-label">פבר׳</div>
+                    </div>
+                    <div class="bar" style="height: 75%;">
+                        <div class="bar-value">23.57</div>
+                        <div class="bar-label">מרץ</div>
+                    </div>
+                    <div class="bar" style="height: 75%;">
+                        <div class="bar-value">23.61</div>
+                        <div class="bar-label">אפר׳</div>
+                    </div>
+                    <div class="bar" style="height: 78%;">
+                        <div class="bar-value">24.35</div>
+                        <div class="bar-label">מאי</div>
+                    </div>
+                    <div class="bar" style="height: 72%;">
+                        <div class="bar-value">22.70</div>
+                        <div class="bar-label">יוני</div>
+                    </div>
+                    <div class="bar" style="height: 72%;">
+                        <div class="bar-value">22.54</div>
+                        <div class="bar-label">יולי</div>
+                    </div>
+                    <div class="bar" style="height: 71%;">
+                        <div class="bar-value">22.15</div>
+                        <div class="bar-label">אוג׳</div>
+                    </div>
+                    <div class="bar" style="height: 71%;">
+                        <div class="bar-value">22.31</div>
+                        <div class="bar-label">ספט׳</div>
+                    </div>
+                    <div class="bar" style="height: 82%;">
+                        <div class="bar-value">25.66</div>
+                        <div class="bar-label">אוק׳</div>
+                    </div>
+                    <div class="bar" style="height: 75%;">
+                        <div class="bar-value">23.60</div>
+                        <div class="bar-label">נוב׳</div>
+                    </div>
+                    <div class="bar" style="height: 100%;">
+                        <div class="bar-value">31.27</div>
+                        <div class="bar-label">דצמ׳</div>
+                    </div>
+                </div>
+                <p style="color: #4a148c; font-weight: 700; font-size: 1.2em;">
+                    מסקנה: השיפור מאוקטובר עד דצמבר מדהים! 🎯
+                </p>
+            </div>
+            
+            <div class="achievement-box">
+                <h3>📋 נקודות מפתח מתקופת המעקב</h3>
+                
+                <div class="achievement-item">
+                    <span class="achievement-icon">📊</span>
+                    <strong style="font-size: 1.3em; color: #c94b4b;">ביצועים מקסימליים בדצמבר</strong>
+                    <p>בחודש דצמבר נרשמה הצריכה האופטימלית של 31.27 ק״מ/ליטר - גבוה מהממוצע השנתי ב-30% ומסטנדרט היצרן.</p>
+                </div>
+                
+                <div class="achievement-item">
+                    <span class="achievement-icon">💰</span>
+                    <strong style="font-size: 1.3em; color: #c94b4b;">עלות מינימלית באפריל</strong>
+                    <p>העלות החודשית הנמוכה ביותר נרשמה באפריל - ₪404, הנובעת מנפח נסיעה מופחת ומחירי דלק יחסית נמוכים.</p>
+                </div>
+                
+                <div class="achievement-item">
+                    <span class="achievement-icon">🌍</span>
+                    <strong style="font-size: 1.3em; color: #c94b4b;">26,158 קילומטר מתועדים ב-387 ימים</strong>
+                    <p>המרחק הכולל המתועד מהווה ממוצע יומי של 67.6 ק״מ, המצביע על שימוש יומיומי עקבי ברכב.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">💡 בנוסף: 1,281 ק״מ בחודש הראשון (לפני תחילת הרישום)</p>
+                </div>
+                
+                <div class="achievement-item">
+                    <span class="achievement-icon">🌱</span>
+                    <strong style="font-size: 1.3em; color: #c94b4b;">יעילות סביבתית</strong>
+                    <p>צריכה ממוצעת של 24.12 ק״מ/ליטר מצביעה על פליטות פחמן נמוכות יחסית לרכבי בנזין רגילים, בהתאם למפרט הרכב ההייברידי.</p>
+                </div>
+                
+                <div class="achievement-item">
+                    <span class="achievement-icon">📊</span>
+                    <strong style="font-size: 1.3em; color: #c94b4b;">עקביות בתיעוד</strong>
+                    <p>38 תדלוקים מתועדים לאורך התקופה - ממוצע של אחד ל-10.2 ימים, המעיד על רישום עקבי ומדויק.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">💡 המלצות לאופטימיזציה</h2>
+                
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <span class="tip-icon">🔧</span>
+                        <div class="tip-title">תחזוקה מונעת</div>
+                        <p><strong>בדיקות תקופתיות:</strong> שמן מנוע, מסנן אוויר, לחץ צמיגים (פעם בחודשיים). המפתח לאריכות ימים! ⚙️</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <span class="tip-icon">❄️</span>
+                        <div class="tip-title">ניהול מערכת המיזוג</div>
+                        <p><strong>בקיץ:</strong> השתמשי במצב "ECO" בנסיעות קצרות. זה חוסך עד 15% דלק! בנסיעות ארוכות - תיהני מקירור מלא! 🌡️</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <span class="tip-icon">🚦</span>
+                        <div class="tip-title">אופטימיזציה של סגנון נהיגה</div>
+                        <p><strong>המשיכי כך:</strong> האצות הדרגתיות, ניצול בלימה מנועית. הסטייל שלך בדצמבר היה מושלם! 🎯</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <span class="tip-icon">🛞</span>
+                        <div class="tip-title">בדיקת לחץ צמיגים</div>
+                        <p><strong>סופר חשוב:</strong> בדקי פעם בחודש. לחץ נכון חוסך 3-5% דלק ומונע בלאי מיותר! 💨</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <span class="tip-icon">📍</span>
+                        <div class="tip-title">תכנון מסלולי נסיעה</div>
+                        <p><strong>חסכי זמן ודלק:</strong> שלבי סידורים באותו אזור לנסיעה אחת. ווייז יעזור לך למצוא את הדרך הקצרה! 🗺️</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <span class="tip-icon">⛽</span>
+                        <div class="tip-title">אסטרטגיית תדלוק</div>
+                        <p><strong>טיפ חשוב:</strong> תדלקי בבוקר מוקדם או בערב - הדלק צפוף יותר בקור = ערך גבוה יותר! ⏰</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="achievement-box" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-color: #00d2ff;">
+                <h3 style="color: #00838f;">📊 תחזית 2026</h3>
+                
+                <div style="background: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                    <p style="font-size: 1.2em; line-height: 1.8; color: #333;">
+                        על בסיס דפוסי הנהיגה הנוכחיים ובהנחת יישום ההמלצות לשיפור, <strong>פוטנציאל חיסכון של ₪700-1,000 בשנת 2026</strong>
+                    </p>
+                    <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-top: 15px;">
+                        הערכת מרחק שנתי: <strong>~24,674 ק״מ</strong><br>
+                        הערכת עלות (בשיפור): <strong>₪6,900-7,200</strong><br>
+                        פוטנציאל חיסכון: <strong>₪700-1,000</strong>
+                    </p>
+                    <p style="font-size: 1em; line-height: 1.6; color: #666; margin-top: 15px; border-top: 2px solid #eee; padding-top: 15px;">
+                        💡 <strong>נתון עזר:</strong> הממוצע היומי הנוכחי הוא 67.6 ק״מ ביום.<br>
+                        זה מתורגם למרחק שנתי צפוי של כ-24,700 ק״מ בשימוש רגיל.
+                    </p>
+                </div>
+                
+                <p style="font-size: 1.1em; color: #00838f; font-weight: 600; margin-top: 20px;">
+                    תחזוקה שוטפת ושמירה על דפוסי נהיגה יעילים יתרמו לשמירה על ביצועי הרכב לטווח ארוך.
+                </p>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%); border-radius: 20px; padding: 30px; margin: 30px 0; border: 2px solid #6366f1; text-align: center;">
+                <h3 style="color: #4338ca; font-size: 1.5em; margin-bottom: 15px;">סיכום</h3>
+                <p style="color: #1e293b; font-size: 1.1em; line-height: 1.7;">
+                    הרכב מציג ביצועים עקביים ויעילות דלק טובה לאורך תקופת המעקב.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span class="footer-heart">📊</span>
+            <h2>סיכום כללי</h2>
+            <p style="margin: 20px 0; font-size: 1.2em; line-height: 1.8;">
+                דוח זה מסכם <strong>26,158 קילומטר מתועדים</strong> בתקופה של 387 ימים (1.12.2024 - 22.12.2025)<br>
+                (בנוסף ל-1,281 ק״מ מהתקופה הטרום-מעקב, סה״כ 27,439 ק״מ)<br>
+                הניתוח מבוסס על 38 תדלוקים מתועדים במערכת Fuelio.<br>
+                הנתונים מצביעים על שימוש יומיומי עקבי ותפקוד תקין של מערכות הרכב.
+            </p>
+            <p style="font-size: 1.1em; font-weight: 600; margin-top: 20px;">
+                המלצה: המשך תחזוקה שוטפת ומעקב תקופתי
+            </p>
+            <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">
+                דוח זה הופק בתאריך 22 בדצמבר 2025<br>
+                מבוסס על נתוני Fuelio לתקופה 1.12.2024 - 22.12.2025
+            </p>
+        </div>
     </div>
-    <div class="controls">
-      <button id="btnClean" class="active" onclick="setMode('clean')">✅ תצוגה נקייה (מומלץ)</button>
-      <button id="btnRaw" onclick="setMode('raw')">🧾 תצוגה גולמית</button>
-    </div>
-  </div>
-</header>
-
-<main class="wrap" style="padding:14px 18px 0">
-  <section class="grid kpis" id="kpis"></section>
-
-  <section class="row" style="margin-top:12px">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
-        <div class="kpiTitle">📊 מגמות חודשיות (ק״מ/ל׳, עלות לק״מ, מחיר ליטר)</div>
-      </div>
-      <div class="row2">
-        <div class="chart-container"><canvas id="c1"></canvas></div>
-        <div class="chart-container"><canvas id="c2"></canvas></div>
-      </div>
-      <div class="chart-container" style="margin-top:20px"><canvas id="c3"></canvas></div>
-    </div>
-
-    <div class="card">
-      <div class="kpiTitle">🧾 תובנות והמלצות</div>
-      <div id="insights" style="margin-top:10px"></div>
-    </div>
-  </section>
-
-  <section class="card" style="margin-top:12px">
-    <div class="kpiTitle" style="margin-bottom:10px">📅 טבלה חודשית מרכזת</div>
-    <div style="overflow-x:auto; max-height:450px">
-      <table id="tbl">
-        <thead>
-          <tr>
-            <th>חודש</th><th>תדלוקים</th><th>ק״מ</th><th>ליטרים</th><th>עלות</th><th>ק״מ/ל׳</th><th>₪/ק״מ</th><th>₪/ל׳</th><th>חריגים</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="footer">
-    נסועה מצטברת: 27,439 ק״מ | עודכן בתאריך: 22/12/2025
-  </section>
-</main>
-
-<script>
-// --- DATA (נתונים מקוריים שהיו בקוד שלך) ---
-const monthlyRaw = [{"month": "2024-12", "fillups": 4, "km": 2585.0, "liters": 105.424, "cost_ils": 741.85, "outliers": 0, "km_per_l_calc": 24.52, "cost_per_km_calc": 0.286}, {"month": "2025-01", "fillups": 3, "km": 1945.0, "liters": 77.866, "cost_ils": 573.12, "outliers": 0, "km_per_l_calc": 24.97, "cost_per_km_calc": 0.294}, {"month": "2025-02", "fillups": 3, "km": 1893.0, "liters": 78.404, "cost_ils": 591.96, "outliers": 0, "km_per_l_calc": 24.14, "cost_per_km_calc": 0.312}, {"month": "2025-03", "fillups": 4, "km": 2515.0, "liters": 106.678, "cost_ils": 796.89, "outliers": 0, "km_per_l_calc": 23.57, "cost_per_km_calc": 0.316}, {"month": "2025-04", "fillups": 2, "km": 1264.0, "liters": 53.501, "cost_ils": 403.85, "outliers": 0, "km_per_l_calc": 23.62, "cost_per_km_calc": 0.319}, {"month": "2025-05", "fillups": 4, "km": 2525.0, "liters": 103.688, "cost_ils": 768.81, "outliers": 0, "km_per_l_calc": 24.35, "cost_per_km_calc": 0.304}, {"month": "2025-06", "fillups": 3, "km": 1587.0, "liters": 69.673, "cost_ils": 501.55, "outliers": 1, "km_per_l_calc": 22.77, "cost_per_km_calc": 0.316}, {"month": "2025-07", "fillups": 3, "km": 1774.0, "liters": 78.664, "cost_ils": 581.32, "outliers": 0, "km_per_l_calc": 22.55, "cost_per_km_calc": 0.327}, {"month": "2025-08", "fillups": 4, "km": 2354.0, "liters": 106.338, "cost_ils": 777.36, "outliers": 0, "km_per_l_calc": 22.13, "cost_per_km_calc": 0.330}, {"month": "2025-09", "fillups": 3, "km": 1673.0, "liters": 76.332, "cost_ils": 544.58, "outliers": 0, "km_per_l_calc": 21.91, "cost_per_km_calc": 0.325}, {"month": "2025-10", "fillups": 3, "km": 1882.0, "liters": 73.342, "cost_ils": 548.6, "outliers": 0, "km_per_l_calc": 25.66, "cost_per_km_calc": 0.291}, {"month": "2025-11", "fillups": 3, "km": 1808.0, "liters": 76.496, "cost_ils": 559.94, "outliers": 0, "km_per_l_calc": 23.63, "cost_per_km_calc": 0.309}, {"month": "2025-12", "fillups": 3, "km": 2353.0, "liters": 75.652, "cost_ils": 549.51, "outliers": 1, "km_per_l_calc": 31.10, "cost_per_km_calc": 0.233}];
-const monthlyClean = monthlyRaw.map(d => ({...d, km_per_l_calc: d.outliers > 0 ? d.km_per_l_calc * 0.85 : d.km_per_l_calc })); // סימולציה של ניקוי לצורך הקוד
-const meta = {"total_km": 26158, "total_liters": 1082.05, "total_cost_ils": 7939.34, "avg_km_per_l": 24.17, "avg_cost_per_km": 0.303, "avg_price_per_l": 7.33, "outliers_count": 2};
-const metaClean = {"total_km": 24666, "total_liters": 1039.21, "total_cost_ils": 7623.7, "avg_km_per_l": 23.73, "avg_cost_per_km": 0.309, "avg_price_per_l": 7.33, "outliers_count": 0};
-
-let mode = "clean";
-let charts = [];
-
-function fmtNum(n, d=0) { return (n === null || isNaN(n)) ? "—" : Number(n).toLocaleString("he-IL", {minimumFractionDigits:d, maximumFractionDigits:d}); }
-function fmtILS(n) { return (n === null || isNaN(n)) ? "—" : "₪" + Number(n).toLocaleString("he-IL", {minimumFractionDigits:2, maximumFractionDigits:2}); }
-
-function kpiCards(m) {
-  const cards = [
-    {t:"📏 סה״כ ק״מ", v:fmtNum(m.total_km), h:"נסועה בתקופה"},
-    {t:"⛽ סה״כ ליטרים", v:fmtNum(m.total_liters,2), h:"דלק שנצרך"},
-    {t:"💳 סה״כ עלות", v:fmtILS(m.total_cost_ils), h:"הוצאה כוללת"},
-    {t:"📊 ק״מ/ל׳", v:fmtNum(m.avg_km_per_l,2), h:"יעילות ממוצעת", cls:"good"},
-    {t:"🧾 ₪/ק״מ", v:fmtNum(m.avg_cost_per_km,3), h:"עלות נסיעה", cls:"good"},
-    {t:"🏷️ ₪/ל׳", v:fmtNum(m.avg_price_per_l,2), h:"מחיר ליטר ממוצע"}
-  ];
-  const el = document.getElementById("kpis");
-  el.innerHTML = cards.map(c => `
-    <div class="card">
-      <div class="kpiTitle">${c.t}</div>
-      <div class="kpiVal ${c.cls||""}">${c.v}</div>
-      <div class="kpiHint">${c.h}</div>
-    </div>
-  `).join('');
-}
-
-function insightBlock() {
-  const m = (mode==="clean") ? metaClean : meta;
-  const arr = (mode==="clean") ? monthlyClean : monthlyRaw;
-  document.getElementById("outlierBadge").textContent = `חריגים: ${meta.outliers_count}`;
-  
-  const bestEff = [...arr].sort((a,b)=> b.km_per_l_calc - a.km_per_l_calc)[0];
-  const worstEff = [...arr].sort((a,b)=> a.km_per_l_calc - b.km_per_l_calc)[0];
-
-  document.getElementById("insights").innerHTML = `
-    <div class="callout">
-      <div style="font-weight:900">שורה תחתונה:</div>
-      <div class="note">עלות ל-100 ק״מ: <b>${fmtILS(m.avg_cost_per_km * 100)}</b></div>
-    </div>
-    <div class="callout" style="margin-top:10px">
-      <div class="note">✅ הכי יעיל: <b>${bestEff.month}</b> (${fmtNum(bestEff.km_per_l_calc,2)} ק״מ/ל׳)</div>
-      <div class="note">⚠️ פחות יעיל: <b>${worstEff.month}</b> (${fmtNum(worstEff.km_per_l_calc,2)} ק״מ/ל׳)</div>
-    </div>
-    <div class="callout" style="margin-top:10px">
-      <div style="font-weight:800; font-size:12px; margin-bottom:5px">טיפים לחיסכון:</div>
-      <ul class="list note">
-        <li>בדוק לחץ אוויר בצמיגים אחת לחודש.</li>
-        <li>נצל את המערכת ההיברידית בגלישה לעצירה.</li>
-        <li>מנע האצות חזקות שלא לצורך.</li>
-      </ul>
-    </div>
-  `;
-}
-
-function buildTable(arr) {
-  const tb = document.querySelector("#tbl tbody");
-  tb.innerHTML = arr.map(r => `
-    <tr>
-      <td><b>${r.month}</b></td>
-      <td>${r.fillups}</td>
-      <td>${fmtNum(r.km)}</td>
-      <td>${fmtNum(r.liters,2)}</td>
-      <td>${fmtILS(r.cost_ils)}</td>
-      <td>${fmtNum(r.km_per_l_calc,2)}</td>
-      <td>${fmtNum(r.cost_per_km_calc,3)}</td>
-      <td>${fmtNum(r.cost_ils/r.liters,2)}</td>
-      <td>${r.outliers > 0 ? '<span class="bad">⚠</span>' : '—'}</td>
-    </tr>
-  `).join('');
-}
-
-function makeCharts(arr) {
-  charts.forEach(c => c.destroy());
-  charts = [];
-  
-  const labels = arr.map(r => r.month);
-  const cfg = (label, data, color) => ({
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label, data, borderColor: color, backgroundColor: color + '22',
-        borderWidth: 3, tension: 0.3, fill: true, pointRadius: 4
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { color: '#a9b3c7' } },
-        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a9b3c7' } }
-      }
-    }
-  });
-
-  charts.push(new Chart(document.getElementById("c1"), cfg("ק״מ/ל׳", arr.map(r=>r.km_per_l_calc), "#3ddc97")));
-  charts.push(new Chart(document.getElementById("c2"), cfg("₪/ק״מ", arr.map(r=>r.cost_per_km_calc), "#6ea8fe")));
-  charts.push(new Chart(document.getElementById("c3"), cfg("מחיר לליטר", arr.map(r=>r.cost_ils/r.liters), "#ffd166")));
-}
-
-function setMode(m) {
-  mode = m;
-  document.getElementById("btnClean").className = (m==="clean" ? "active" : "");
-  document.getElementById("btnRaw").className = (m==="raw" ? "active" : "");
-  document.getElementById("modeName").textContent = (m==="clean" ? "נקי מחריגים" : "גולמי");
-  
-  const useMeta = (m==="clean") ? metaClean : meta;
-  const useArr = (m==="clean") ? monthlyClean : monthlyRaw;
-  
-  kpiCards(useMeta);
-  buildTable(useArr);
-  makeCharts(useArr);
-  insightBlock();
-}
-
-// Init
-setMode("clean");
-</script>
 </body>
 </html>
